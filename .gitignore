@@ -7,3 +7,8 @@ src/**.js
 coverage
 *.log
 package-lock.json
+/supabase/.temp/
+/scripts/csv-chunks/
+/scripts/csv-chunks-small/
+/scripts/archive/
+/scripts/

@@ -1,5 +1,5 @@
 {
-  "name": "gov-deals",
+  "name": "@lineai/gov-deals",
   "version": "1.0.0",
   "description": "Explore Federal contracts for government building renovations, city hall renovations, courthouse updates, library modernizations, federal building improvement contracts, base housing and facilities upgrades.",
   "main": "build/main/index.js",
@@ -36,17 +36,25 @@
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
     "version": "standard-version",
     "reset-hard": "git clean -dfx && git reset --hard && yarn",
-    "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish"
+    "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish",
+    "verify-api": "ts-node scripts/verify-api-schema.ts",
+    "test-implementation": "ts-node scripts/test-updated-implementation.ts",
+    "examples": "ts-node examples/basic-usage.ts"
   },
   "engines": {
     "node": ">=10"
   },
   "dependencies": {
-    "@bitauth/libauth": "^1.17.1"
+    "@bitauth/libauth": "^1.17.1",
+    "axios": "^1.10.0",
+    "csv-parse": "^5.6.0",
+    "dotenv": "^17.0.0",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "@ava/typescript": "^1.1.1",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/node": "^24.0.7",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "ava": "^3.12.1",
@@ -102,5 +110,6 @@
     "exclude": [
       "**/*.spec.js"
     ]
-  }
+  },
+  "packageManager": "yarn@4.9.2"
 }
