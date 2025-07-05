@@ -88,6 +88,7 @@ export function mapCsvToSamOpportunity(csvRow: CsvOpportunityRow): any {
     
     // Classification
     naicsCode: String(csvRow.NaicsCode), // Convert to string
+    naicsCodes: [String(csvRow.NaicsCode)], // Add array format
     classificationCode: csvRow.ClassificationCode,
     
     // Status
@@ -117,17 +118,25 @@ export function mapCsvToSamOpportunity(csvRow: CsvOpportunityRow): any {
     ],
     
     // Addresses
-    officeAddress: {
+    officeAddress: csvRow.City ? {
       city: csvRow.City,
       state: csvRow.State,
       zipcode: csvRow.ZipCode,
       countryCode: csvRow.CountryCode,
-    },
+    } : null,
     placeOfPerformance: csvRow.PopCity ? {
-      city: csvRow.PopCity,
-      state: csvRow.PopState,
-      zipcode: csvRow.PopZip,
-      countryCode: csvRow.PopCountry,
+      city: {
+        code: csvRow.PopCity || undefined, // Use city name as code since we don't have separate codes
+        name: csvRow.PopCity || undefined,
+      },
+      state: {
+        code: csvRow.PopState || undefined,
+        name: csvRow.PopState || undefined, // Use same value for both code and name
+      },
+      country: {
+        code: csvRow.PopCountry || undefined,
+        name: csvRow.PopCountry || undefined,
+      },
     } : null,
     
     // Award information
@@ -141,6 +150,8 @@ export function mapCsvToSamOpportunity(csvRow: CsvOpportunityRow): any {
     // Links
     uiLink: csvRow.Link,
     additionalInfoLink: csvRow.AdditionalInfoLink,
+    links: [], // CSV doesn't have links array
+    resourceLinks: null, // CSV doesn't have resource links
   };
 }
 
