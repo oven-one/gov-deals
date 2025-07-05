@@ -1,6 +1,6 @@
 {
   "name": "@lineai/gov-deals",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Explore Federal contracts for government building renovations, city hall renovations, courthouse updates, library modernizations, federal building improvement contracts, base housing and facilities upgrades.",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
