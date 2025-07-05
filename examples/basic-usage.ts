@@ -10,8 +10,12 @@ import { SamApi } from '@lineai/gov-deals';
 async function basicExamples() {
   // Initialize the SAM.gov API client
   // You'll need to get an API key from https://sam.gov
+  if (!process.env.SAM_API_KEY) {
+    throw new Error('SAM_API_KEY environment variable is required. Get your API key from https://sam.gov');
+  }
+  
   const samApi = new SamApi({
-    apiKey: process.env.SAM_API_KEY || 'your-api-key-here',
+    apiKey: process.env.SAM_API_KEY,
   });
 
   try {

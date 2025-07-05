@@ -84,7 +84,7 @@ export const SamPointOfContactSchema = z.object({
   type: z.string(), // "primary", "secondary", etc.
   fullName: z.string().nullable().optional(),
   title: z.string().nullable().optional(),
-  email: z.string().email().nullable().optional(),
+  email: z.string().nullable().optional(), // Relaxed validation - SAM.gov has data quality issues
   phone: z.string().nullable().optional(),
   fax: z.string().nullable().optional(),
 });
@@ -99,6 +99,24 @@ export const SamOfficeAddressSchema = z.object({
   city: z.string().nullable().optional(),
   state: z.string().nullable().optional(), // Allow international states
   countryCode: z.string().nullable().optional(),
+});
+
+/**
+ * Place of Performance schema (actual API structure with nested objects)
+ */
+export const SamPlaceOfPerformanceSchema = z.object({
+  city: z.object({
+    code: z.string().optional(),
+    name: z.string().optional(),
+  }).nullable().optional(),
+  state: z.object({
+    code: z.string().optional(),
+    name: z.string().optional(),
+  }).nullable().optional(),
+  country: z.object({
+    code: z.string().optional(),
+    name: z.string().optional(),
+  }).nullable().optional(),
 });
 
 export type SamOfficeAddress = z.infer<typeof SamOfficeAddressSchema>;
@@ -152,7 +170,7 @@ export const SamOpportunitySchema = z.object({
   archiveType: z.string().optional(),
   
   // Set-aside information
-  typeOfSetAside: TypeOfSetAsideSchema.nullable().optional(),
+  typeOfSetAside: TypeOfSetAsideSchema.nullable().optional().or(z.literal('')),
   typeOfSetAsideDescription: z.string().nullable().optional(),
   
   // Classification
@@ -170,8 +188,8 @@ export const SamOpportunitySchema = z.object({
   pointOfContact: z.array(SamPointOfContactSchema).optional(),
   
   // Addresses
-  officeAddress: SamOfficeAddressSchema.optional(),
-  placeOfPerformance: SamOfficeAddressSchema.nullable().optional(),
+  officeAddress: SamOfficeAddressSchema.nullable().optional(),
+  placeOfPerformance: SamPlaceOfPerformanceSchema.nullable().optional(),
   
   // Award information
   award: SamAwardSchema.nullable().optional(),
@@ -180,7 +198,7 @@ export const SamOpportunitySchema = z.object({
   uiLink: z.string().optional(),
   links: z.array(SamLinkSchema).optional(),
   additionalInfoLink: z.string().nullable().optional(),
-  resourceLinks: z.string().nullable().optional(), // Can be null or string
+  resourceLinks: z.array(z.string()).nullable().optional(), // Array of resource URLs or null
 });
 
 export type SamOpportunity = z.infer<typeof SamOpportunitySchema>;
@@ -248,6 +266,7 @@ export const SamOpportunitySearchResponseSchema = z.object({
   offset: z.number(),
   opportunitiesData: z.array(SamOpportunitySchema),
   links: z.array(SamLinkSchema).optional(),
+  searchTips: z.array(z.string()).optional(),
 });
 
 export type SamOpportunitySearchResponse = z.infer<typeof SamOpportunitySearchResponseSchema>;

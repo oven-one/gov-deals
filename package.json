@@ -5,9 +5,21 @@
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
-  "repository": "https://github.com/YOUR_GITHUB_USER_NAME/gov-deals",
+  "repository": "https://github.com/oven-one/gov-deals",
   "license": "MIT",
-  "keywords": [],
+  "keywords": [
+    "sam.gov",
+    "federal-contracts",
+    "government-contracts",
+    "construction",
+    "renovation",
+    "building",
+    "opportunities",
+    "procurement",
+    "contracting",
+    "naics",
+    "typescript"
+  ],
   "scripts": {
     "build": "run-p build:*",
     "build:main": "tsc -p tsconfig.json",
@@ -39,13 +51,13 @@
     "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish",
     "verify-api": "ts-node scripts/verify-api-schema.ts",
     "test-implementation": "ts-node scripts/test-updated-implementation.ts",
+    "test:functional": "run-s build:main && node scripts/functional-test-runner.js",
     "examples": "ts-node examples/basic-usage.ts"
   },
   "engines": {
     "node": ">=10"
   },
   "dependencies": {
-    "@bitauth/libauth": "^1.17.1",
     "axios": "^1.10.0",
     "csv-parse": "^5.6.0",
     "dotenv": "^17.0.0",
@@ -80,8 +92,6 @@
     "build/main",
     "build/module",
     "!**/*.spec.*",
-    "!**/*.json",
-    "CHANGELOG.md",
     "LICENSE",
     "README.md"
   ],
